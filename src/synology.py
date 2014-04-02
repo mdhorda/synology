@@ -12,6 +12,7 @@ class Syno():
         self.port = port
         self.user = user
         self.passwd = passwd
+        self.sid = ''
         self.http = urllib3.PoolManager()
         print(colored.yellow(self.host + ':' + self.port))
 
@@ -26,10 +27,11 @@ class Syno():
                 'account' : self.user,
                 'passwd' : self.passwd,
                 'session' : 'FileStation',
-                'format' : 'cookie'
+                'format' : 'sid'
             }
         )
-        print(colored.magenta(login_endpoint))
+        data2 = self.req(login_endpoint)
+        self.sid = data2['sid']
 
     def endpoint(self, api, query='', cgi='query', version='1', method='query', extra={}):
         ret = 'http://' + self.host + ':' + self.port + '/webapi/' + cgi + '.cgi?api='\
@@ -39,6 +41,9 @@ class Syno():
 
         for key, value in extra.items():
             ret += '&' + key + '=' + value
+
+        if self.sid:
+            ret += '&_sid=' + self.sid
 
         return ret
 
@@ -72,3 +77,4 @@ if __name__ == '__main__':
     syno.login()
     #syno.req('SYNO.API.Info', query='all')
     #syno.req('SYNO.FileStation.Info', end='info', extra='FileStation/', method='getinfo')
+    syno.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.List', cgi='FileStation/file_share', method='list_share')))
