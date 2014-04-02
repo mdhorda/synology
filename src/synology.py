@@ -1,6 +1,7 @@
 import urllib3
 import json
 from clint.textui import colored
+import logging
 
 import config
 import errors
@@ -65,14 +66,14 @@ class Syno():
         return ret
 
     def req(self, endpoint):
-        print()
-        print(colored.magenta(endpoint))
+        logging.info('url: ' + endpoint)
         r = self.http.request('GET', endpoint)
 
         if r.status != 200:
             print('http status: ' + str(r.status))
 
         if r.status == 404:
+            logging.error('404 http error')
             raise NameError('http error' + str(r.status))
 
         with open('test.json', 'w') as f:
@@ -80,7 +81,7 @@ class Syno():
         response = json.loads(r.data.strip().decode('utf-8'))
 
         if response['success'] == True:
-            print(colored.green('success'))
+            logging.info('successfull http request')
             if 'data' in response.keys():
                 return response['data']
             return ''
@@ -94,8 +95,8 @@ class Syno():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     syno = Syno(config.host, config.user, config.passwd)
     #syno.req('SYNO.API.Info', query='all')
     #syno.req('SYNO.FileStation.Info', end='info', extra='FileStation/', method='getinfo')
     syno.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.List', cgi='FileStation/file_share.cgi', method='list_share')))
-    print('hello')
