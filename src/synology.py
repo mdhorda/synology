@@ -3,6 +3,7 @@ import urllib3
 import json
 from clint.textui import colored
 
+
 class Syno():
     def __init__(self, host, port='5000'):
         self.host = host
@@ -25,15 +26,14 @@ class Syno():
             print(colored.green('success'))
             self.jsonprint(response['data'])
         else:
-            print(colored.red('failure - ' + response['error']['code']))
+            print(colored.red('failure - ' + str(response['error']['code'])))
             self.jsonprint(response['error'])
 
     def jsonprint(self, data):
         print(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
 
 
-
-
 if __name__ == '__main__':
     syno = Syno(config.host)
     syno.req('SYNO.API.Info')
+    syno.req('SYNO.API.Infor')
