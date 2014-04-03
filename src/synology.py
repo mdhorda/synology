@@ -58,7 +58,7 @@ class Syno():
             ret += '&query=' + query
 
         for key, value in extra.items():
-            ret += '&' + key + '=' + value
+            ret += '&' + key + '=' + str(value)
 
         if self.sid:
             ret += '&_sid=' + self.sid
@@ -94,9 +94,28 @@ class Syno():
         print(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
 
 
+class FileStation(Syno):
+    def get_info(self):
+        return self.req(self.endpoint('SYNO.FileStation.Info', cgi='FileStation/info.cgi', method='getinfo'))
+
+    def get_shares(self, writable_only=False, limit=25, offset=0, sort_by='name', sort_direction='asc', additional=False):
+        return self.req(self.endpoint('SYNO.FileStation.List', cgi='FileStation/file_share.cgi', method='list_share', extra={
+            'onlywritable': writable_only,
+            'limit': limit,
+            'offset': offset,
+            'sort_by': sort_by,
+            'sort_direction': sort_direction,
+            'additional': additional # FIXME 'real_path,owner,time,perm,volume_status'
+        }))
+        
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    syno = Syno(config.host, config.user, config.passwd)
+    #syno = Syno(config.host, config.user, config.passwd)
+    filestation = FileStation(config.host, config.user, config.passwd)
     #syno.req('SYNO.API.Info', query='all')
     #syno.req('SYNO.FileStation.Info', end='info', extra='FileStation/', method='getinfo')
-    syno.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.List', cgi='FileStation/file_share.cgi', method='list_share')))
+    #syno.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.List', cgi='FileStation/file_share.cgi', method='list_share')))
+    #syno.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.Info', cgi='FileStation/info.cgi', method='getinfo')))
+    filestation.jsonprint(filestation.get_info())
+    filestation.jsonprint(filestation.get_shares())
