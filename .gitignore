@@ -53,6 +53,6 @@ coverage.xml
 docs/_build/
 
 *.json
-src/config.py
+synology/config.py
 include
 *.swp
