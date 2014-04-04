@@ -43,11 +43,7 @@ class Syno():
             'SYNO.API.Auth',
             cgi='auth.cgi',
             method='logout',
-            extra={
-                'account' : self.user,
-                'passwd' : self.passwd,
-                'session' : self.session_name
-            }
+            extra={ 'session' : self.session_name }
         )
         data = self.req(logout_endpoint)
 
