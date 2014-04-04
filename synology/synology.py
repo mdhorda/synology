@@ -93,11 +93,19 @@ class Syno():
 if __name__ == '__main__':
     from filestation import FileStation
     logging.basicConfig(level=logging.INFO)
+
     #syno = Syno(config.host, config.user, config.passwd)
-    filestation = FileStation(config.host, config.user, config.passwd)
     #syno.req('SYNO.API.Info', query='all')
     #syno.req('SYNO.FileStation.Info', end='info', extra='FileStation/', method='getinfo')
     #syno.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.List', cgi='FileStation/file_share.cgi', method='list_share')))
     #syno.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.Info', cgi='FileStation/info.cgi', method='getinfo')))
+
+    filestation = FileStation(config.host, config.user, config.passwd)
+    print(colored.yellow('Get info'))
     filestation.jsonprint(filestation.get_info())
+    print(colored.yellow('Get shares'))
     filestation.jsonprint(filestation.get_shares())
+    print(colored.yellow('Get list'))
+    filestation.get_list('%2FBackups', additional=True)
+    #print(colored.yellow('Search'))
+    #filestation.search()
