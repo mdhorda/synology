@@ -53,7 +53,9 @@ coverage.xml
 docs/_build/
 
 *.json
-synology/config.py
+config.py
 include
 *.swp
 man
+ressources
+.DS_Store

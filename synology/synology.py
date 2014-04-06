@@ -1,9 +1,7 @@
 import urllib3
 import json
-from clint.textui import colored
 import logging
 
-import synology.config
 import synology.errors
 import synology.utils
 
@@ -83,27 +81,6 @@ class Syno():
                 return response['data']
             return ''
 
-        print(colored.red('failure - ' + str(response['error']['code']) +\
-	      ' - ' + errors.errors[response['error']['code']]))
+        print('failure - ' + str(response['error']['code']) +\
+	      ' - ' + errors.errors[response['error']['code']])
         utils.jsonprint(response['error'])
-
-
-if __name__ == '__main__':
-    from filestation import FileStation
-    logging.basicConfig(level=logging.INFO)
-
-    #syno = Syno(config.host, config.user, config.passwd)
-    #syno.req('SYNO.API.Info', query='all')
-    #syno.req('SYNO.FileStation.Info', end='info', extra='FileStation/', method='getinfo')
-    #utils.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.List', cgi='FileStation/file_share.cgi', method='list_share')))
-    #utils.jsonprint(syno.req(syno.endpoint('SYNO.FileStation.Info', cgi='FileStation/info.cgi', method='getinfo')))
-
-    filestation = FileStation(config.host, config.user, config.passwd)
-    print(colored.yellow('Get info'))
-    utils.jsonprint(filestation.get_info())
-    print(colored.yellow('Get shares'))
-    utils.jsonprint(filestation.get_shares())
-    print(colored.yellow('Get list'))
-    utils.jsonprint(filestation.get_list('/Backups'))
-    #print(colored.yellow('Search'))
-    #filestation.search()
