@@ -1,4 +1,4 @@
-from synology import Syno
+from synology.synology import Syno
 
 
 class FileStation(Syno):

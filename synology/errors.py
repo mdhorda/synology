@@ -16,7 +16,7 @@ errors = {
     403: 'Invalid user does this file operation',
     404: 'Invalid group does this file operation',
     405: 'Invalid user and group does this file operation',
-    406: 'Can’t get user/group information from the account server',
+    406: 'Can\'t get user/group information from the account server',
     407: 'Operation not permitted',
     408: 'No such file or directory',
     409: 'Non-supported file system',

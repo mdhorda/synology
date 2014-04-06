@@ -56,3 +56,4 @@ docs/_build/
 synology/config.py
 include
 *.swp
+man

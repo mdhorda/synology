@@ -12,4 +12,6 @@ setup(name='synology',
           'urllib3',
           'clint'
       ],
+      test_suite='nose.collector',
+      tests_require=['nose'],
       zip_safe=False)
