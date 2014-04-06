@@ -17,16 +17,21 @@ cd synology
 virtualenv -p python3 .
 source bin/activate
 
-cp src/example_config.py src/config.py
-# edit src/config.py
+cp example_config.py config.py
+# edit config.py
 
-python src/synology.py
+python example.py
 ```
 
 Usage
 -----
 
 ```python
+import config
+from synology.synology import Syno
+from synology.filestation import FileStation
+from synology.utils import jsonprint
+
 logging.basicConfig(level=logging.INFO)
 
 # Instanciate directly a Syno
