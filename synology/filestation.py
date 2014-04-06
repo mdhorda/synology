@@ -6,13 +6,25 @@ from synology.synology import Syno
 
 
 class FileStation(Syno):
+    """
+    Access synology FileStation informations
+    """
     def get_info(self):
+        """
+        Provide File Station information.
+
+        Availability: Since DSM 4.3
+        Version: 1
+        """
         return self.req(self.endpoint('SYNO.FileStation.Info',
                         cgi='FileStation/info.cgi',
                         method='getinfo'))
 
     def get_shares(self, writable_only=False, limit=25, offset=0,
                    sort_by='name', sort_direction='asc', additional=False):
+        """
+        List all shared folders.
+        """
         extra = {
             'onlywritable': writable_only,
             'limit': limit,
@@ -36,6 +48,9 @@ class FileStation(Syno):
     def get_list(self, path, limit=25, offset=0, sort_by='name',
                  sort_direction='asc', pattern='', filetype='all',
                  additional=False):
+        """
+        Enumerate files in a given folder
+        """
         extra = {
             'folder_path': path,
             'limit': limit,
