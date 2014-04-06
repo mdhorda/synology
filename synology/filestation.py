@@ -1,3 +1,7 @@
+import time
+import sys
+import logging
+
 from synology.synology import Syno
 
 
@@ -48,6 +52,41 @@ class FileStation(Syno):
             method='list',
             extra=extra
         ))
+
+    def dir_size(self, path):
+        """
+        Get the accumulated size of files/folders within folder(s).
+        This is a non-blocking API. You need to start it with the start method.
+        Then, you should poll requests with the status method to get progress
+        status or make a request with stop method to cancel the operation.
+
+        Availability: Since DSM 4.3
+        Version: 1
+
+        Return: size in octets
+        """
+        start = self.req(self.endpoint(
+            'SYNO.FileStation.DirSize',
+            cgi='FileStation/file_dirSize.cgi',
+            method='start',
+            extra={'path': path}
+        ))
+        if not 'taskid' in start.keys():
+            raise NameError('taskid not in response')
+
+        while True:
+            time.sleep(10)
+            status = self.req(self.endpoint(
+                'SYNO.FileStation.DirSize',
+                cgi='FileStation/file_dirSize.cgi',
+                method='status',
+                extra={'taskid': start['taskid']}
+            ))
+            print('.', end='')
+            sys.stdout.flush()
+            if status['finished']:
+                print()
+                return int(status['total_size'])
 
     # TODO
     def search(self):
