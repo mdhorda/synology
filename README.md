@@ -8,6 +8,9 @@ I refer to the following document to add functions 1 by 1:
 
 Any help is welcome, please fork this repo and contact me.
 
+API coverage
+------------
+
 | Endpoint                         | Description                                                                                                                                                                                          | Status |
 |----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
 | SYNO.FileStation.Info            | Provide File Station info                                                                                                                                                                            | ok     |
