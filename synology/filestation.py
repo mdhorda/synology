@@ -137,3 +137,17 @@ class FileStation(Syno):
             if status['finished']:
                 print()
                 return status['md5']
+
+    def delete(self, path):
+        """
+        Delete file(s)/folder(s)
+
+        I'm using ths blocking method for now.
+        """
+        self.req(self.endpoint(
+            'SYNO.FileStation.Delete',
+            cgi='FileStation/file_delete.cgi',
+            method='delete',
+            extra={'path': path}
+        ))
+
