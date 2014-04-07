@@ -8,6 +8,28 @@ I refer to the following document to add functions 1 by 1:
 
 Any help is welcome, please fork this repo and contact me.
 
+| Endpoint                         | Description                                                                                                                                                                                          | Status |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| SYNO.FileStation.Info            | Provide File Station info                                                                                                                                                                            | ok     |
+| SYNO.FileStation.List            | List all shared folders, enumerate files in a shared folder,and get detailed file information                                                                                                        | ok     |
+| SYNO.FileStation.Search          | Search files on given criteria                                                                                                                                                                       | todo   |
+| SYNO.FileStation.VirtualFolder   | List all mount point folders of virtual file system, ex: CIFS or ISO                                                                                                                                 | todo   |
+| SYNO.FileStation.Favorite        | Add a folder to user’s favorites or do operations on user’s favorites                                                                                                                                | todo   |
+| SYNO.FileStation.Thumb           | Get a thumbnail of a file                                                                                                                                                                            | todo   |
+| SYNO.FileStation.DirSize         | Get the total size of files/folders within folder(s)                                                                                                                                                 | ok     |
+| SYNO.FileStation.MD5             | Get MD5 of a file                                                                                                                                                                                    | todo   |
+| SYNO.FileStation.CheckPermission | Check if the file/folder has a permission of a file/folder or not                                                                                                                                    | todo   |
+| SYNO.FileStation.Upload          | Upload a file                                                                                                                                                                                        | todo   |
+| SYNO.FileStation.Download        | Download files/folders                                                                                                                                                                               | todo   |
+| SYNO.FileStation.Sharing         | Generate a sharing link to share files/folders with other people and perform operations on sharing links                                                                                             | todo   |
+| SYNO.FileStation.CreateFolder    | Create folder(s)                                                                                                                                                                                     | todo   |
+| SYNO.FileStation.Rename          | Rename a file/folder                                                                                                                                                                                 | todo   |
+| SYNO.FileStation.CopyMove        | Copy/Move files/folders                                                                                                                                                                              | todo   |
+| SYNO.FileStation.Delete          | Delete files/folders                                                                                                                                                                                 | todo   |
+| SYNO.FileStation.Extract         | Extract an archive and do operations on an archive                                                                                                                                                   | todo   |
+| SYNO.FileStation.Compress        | Compress files/folders                                                                                                                                                                               | todo   |
+| SYNO.FileStation.BackgroundTask  | Get information regarding tasks of file operations which are run as the background process including copy, move, delete, compress and extract tasks or perform operations on these background tasks. | wip    |
+
 Install
 -------
 
