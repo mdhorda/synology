@@ -33,17 +33,17 @@ logger.addHandler(ch)
 
 filestation = FileStation(config.host, config.user, config.passwd)
 
-#print(colored.yellow('Get info'))
-#jsonprint(filestation.get_info())
+print(colored.yellow('Get info'))
+jsonprint(filestation.get_info())
 
-#print(colored.yellow('Get shares'))
-#jsonprint(filestation.get_shares())
+print(colored.yellow('List share'))
+jsonprint(filestation.list_share())
 
 print(colored.yellow('Get list'))
-jsonprint(filestation.get_list('/Backups'))
+jsonprint(filestation.list('/Backups'))
 
-print(colored.yellow('Get dirsize of /Backups/magnau_f'))
-print('Size: ' + size(filestation.dir_size('/Backups/magnau_f')))
+#print(colored.yellow('Get dirsize of /Backups/magnau_f'))
+#print('Size: ' + size(filestation.dir_size('/Backups/magnau_f')))
 
 #print(colored.yellow('Search'))
 #filestation.search()
