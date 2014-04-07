@@ -2,8 +2,8 @@ import urllib3
 import json
 import logging
 
-import synology.errors
-import synology.utils
+from synology.errors import errors
+from synology.utils import jsonprint
 
 
 class Syno():
@@ -82,5 +82,5 @@ class Syno():
             return ''
 
         print('failure - ' + str(response['error']['code']) +\
-	      ' - ' + errors.errors[response['error']['code']])
-        utils.jsonprint(response['error'])
+	      ' - ' + errors[response['error']['code']])
+        jsonprint(response['error'])

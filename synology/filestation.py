@@ -74,17 +74,16 @@ class FileStation(Syno):
             extra=extra
         ))
 
+    # TODO
+    def search(self):
+        raise NotImplementedError()
+
     def dir_size(self, path):
         """
         Get the accumulated size of files/folders within folder(s).
-        This is a non-blocking API. You need to start it with the start method.
-        Then, you should poll requests with the status method to get progress
-        status or make a request with stop method to cancel the operation.
 
-        Availability: Since DSM 4.3
-        Version: 1
-
-        Return: size in octets
+        Returns:
+            size in octets
         """
         start = self.req(self.endpoint(
             'SYNO.FileStation.DirSize',
@@ -109,6 +108,32 @@ class FileStation(Syno):
                 print()
                 return int(status['total_size'])
 
-    # TODO
-    def search(self):
-        raise NotImplementedError()
+    def md5(self, path):
+        """
+        Get MD5 of a file. 
+
+        Return:
+            file MD5
+        """
+        start = self.req(self.endpoint(
+            'SYNO.FileStation.MD5',
+            cgi='FileStation/file_md5.cgi',
+            method='start',
+            extra={'file_path': path}
+        ))
+        if not 'taskid' in start.keys():
+            raise NameError('taskid not in response')
+
+        while True:
+            time.sleep(10)
+            status = self.req(self.endpoint(
+                'SYNO.FileStation.MD5',
+                cgi='FileStation/file_md5.cgi',
+                method='status',
+                extra={'taskid': start['taskid']}
+            ))
+            print('.', end='')
+            sys.stdout.flush()
+            if status['finished']:
+                print()
+                return status['md5']
