@@ -169,4 +169,19 @@ class FileStation(Syno):
             method='create',
             extra=extra
         ))
-        
+
+    def rename(self, path, name, additional=False):
+        """
+        Rename a file/folder
+        """
+        extra = {
+            'name': name,
+            'path': path,
+            'additional': 'real_path,size,owner,time,perm' if additional else ''
+        }
+        return self.req(self.endpoint(
+            'SYNO.FileStation.Rename',
+            cgi='FileStation/file_rename.cgi',
+            method='rename',
+            extra=extra
+        ))
