@@ -151,3 +151,22 @@ class FileStation(Syno):
             extra={'path': path}
         ))
 
+    def create(self, path, name, force_parent=True, additional=False):
+        """
+        Create folders
+
+        This does not support several path/name tupple as the API does
+        """
+        extra = {
+            'name': name,
+            'folder_path': path,
+            'force_parent': force_parent,
+            'additional': 'real_path,size,owner,time,perm' if additional else ''
+        }
+        return self.req(self.endpoint(
+            'SYNO.FileStation.CreateFolder',
+            cgi='FileStation/file_crtfdr.cgi',
+            method='create',
+            extra=extra
+        ))
+        
