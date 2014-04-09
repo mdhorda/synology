@@ -9,6 +9,8 @@ class FileStation(Syno):
     """
     Access synology FileStation informations
     """
+    self.add = 'real_path,size,owner,time,perm'
+
     def get_info(self):
         """
         Provide File Station information
@@ -21,19 +23,18 @@ class FileStation(Syno):
         """
         List all shared folders
         """
-        extra = {
-            'onlywritable': writable_only,
-            'limit': limit,
-            'offset': offset,
-            'sort_by': sort_by,
-            'sort_direction': sort_direction,
-            'additional': 'real_path,size,owner,time,perm' if additional else ''
-        }
         return self.req(self.endpoint(
             'SYNO.FileStation.List',
             cgi='FileStation/file_share.cgi',
             method='list_share',
-            extra=extra
+            extra={
+                'onlywritable': writable_only,
+                'limit': limit,
+                'offset': offset,
+                'sort_by': sort_by,
+                'sort_direction': sort_direction,
+                'additional': self.add if additional else ''
+            }
         ))
 
     def list(self, path, limit=25, offset=0, sort_by='name',
@@ -42,36 +43,34 @@ class FileStation(Syno):
         """
         Enumerate files in a given folder
         """
-        extra = {
-            'folder_path': path,
-            'limit': limit,
-            'offset': offset,
-            'sort_by': sort_by,
-            'sort_direction': sort_direction,
-            'pattern': pattern,
-            'filetype': filetype,
-            'additional': 'real_path,size,owner,time,perm' if additional else ''
-        }
         return self.req(self.endpoint(
             'SYNO.FileStation.List',
             cgi='FileStation/file_share.cgi',
             method='list',
-            extra=extra
+            extra={
+                'folder_path': path,
+                'limit': limit,
+                'offset': offset,
+                'sort_by': sort_by,
+                'sort_direction': sort_direction,
+                'pattern': pattern,
+                'filetype': filetype,
+                'additional': self.add if additional else ''
+            }
         ))
 
     def get_file_info(self, path, additional=False):
         """
         Get information of file(s)
         """
-        extra = {
-            'path': path,
-            'additional': 'real_path,size,owner,time,perm' if additional else ''
-        }
         return self.req(self.endpoint(
             'SYNO.FileStation.List',
             cgi='FileStation/file_share.cgi',
             method='getinfo',
-            extra=extra
+            extra={
+                'path': path,
+                'additional': self.add if additional else ''
+            }
         ))
 
     # TODO
@@ -110,10 +109,7 @@ class FileStation(Syno):
 
     def md5(self, path):
         """
-        Get MD5 of a file. 
-
-        Return:
-            file MD5
+        Get MD5 of a file.
         """
         start = self.req(self.endpoint(
             'SYNO.FileStation.MD5',
@@ -141,7 +137,6 @@ class FileStation(Syno):
     def delete(self, path):
         """
         Delete file(s)/folder(s)
-
         I'm using ths blocking method for now.
         """
         self.req(self.endpoint(
@@ -154,34 +149,31 @@ class FileStation(Syno):
     def create(self, path, name, force_parent=True, additional=False):
         """
         Create folders
-
         This does not support several path/name tupple as the API does
         """
-        extra = {
-            'name': name,
-            'folder_path': path,
-            'force_parent': force_parent,
-            'additional': 'real_path,size,owner,time,perm' if additional else ''
-        }
         return self.req(self.endpoint(
             'SYNO.FileStation.CreateFolder',
             cgi='FileStation/file_crtfdr.cgi',
             method='create',
-            extra=extra
+            extra={
+                'name': name,
+                'folder_path': path,
+                'force_parent': force_parent,
+                'additional': self.add if additional else ''
+            }
         ))
 
     def rename(self, path, name, additional=False):
         """
         Rename a file/folder
         """
-        extra = {
-            'name': name,
-            'path': path,
-            'additional': 'real_path,size,owner,time,perm' if additional else ''
-        }
         return self.req(self.endpoint(
             'SYNO.FileStation.Rename',
             cgi='FileStation/file_rename.cgi',
             method='rename',
-            extra=extra
+            extra={
+                'name': name,
+                'path': path,
+                'additional': self.add if additional else ''
+            }
         ))
