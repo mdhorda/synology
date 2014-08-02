@@ -3,7 +3,7 @@ import logging
 import requests
 
 from errors import errors
-from utils import jsonprint
+from utils import jsondump
 
 class Syno():
     def __init__(self, host, user, passwd, port='5000'):
@@ -101,7 +101,7 @@ class Syno():
 
         logging.error('failure - ' + str(response_json['error']['code']) +\
 	      ' - ' + errors[response_json['error']['code']])
-        return jsonprint(response_json['error'])
+        return jsondump(response_json['error'])
 
     def is_response_binary(self, response):
         return 'text/plain' not in response.headers['content-type']
