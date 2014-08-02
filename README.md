@@ -23,19 +23,19 @@ Implemented
 | SYNO.FileStation.CreateFolder    | Create folder(s)                                                                                                                                                                                     |
 | SYNO.FileStation.Rename          | Rename a file/folder                                                                                                                                                                                 |
 | SYNO.FileStation.Delete          | Delete files/folders                                                                                                                                                                                 |
+| SYNO.FileStation.Search          | Search files on given criteria                                                                                                                                                                       |
+| SYNO.FileStation.Thumb           | Get a thumbnail of a file                                                                                                                                                                            |
+| SYNO.FileStation.CheckPermission | Check if the file/folder has a permission of a file/folder or not                                                                                                                                    |
+| SYNO.FileStation.Upload          | Upload a file                                                                                                                                                                                        |
+| SYNO.FileStation.Download        | Download files/folders                                                                                                                                                                               |
 
 TODO
 ----
 
 | Endpoint                         | Description                                                                                                                                                                                          |
 |----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SYNO.FileStation.Search          | Search files on given criteria                                                                                                                                                                       |
 | SYNO.FileStation.VirtualFolder   | List all mount point folders of virtual file system, ex: CIFS or ISO                                                                                                                                 |
 | SYNO.FileStation.Favorite        | Add a folder to user’s favorites or do operations on user’s favorites                                                                                                                                |
-| SYNO.FileStation.Thumb           | Get a thumbnail of a file                                                                                                                                                                            |
-| SYNO.FileStation.CheckPermission | Check if the file/folder has a permission of a file/folder or not                                                                                                                                    |
-| SYNO.FileStation.Upload          | Upload a file                                                                                                                                                                                        |
-| SYNO.FileStation.Download        | Download files/folders                                                                                                                                                                               |
 | SYNO.FileStation.Sharing         | Generate a sharing link to share files/folders with other people and perform operations on sharing links                                                                                             |
 | SYNO.FileStation.CopyMove        | Copy/Move files/folders                                                                                                                                                                              |
 | SYNO.FileStation.Extract         | Extract an archive and do operations on an archive                                                                                                                                                   |
