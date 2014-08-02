@@ -1,15 +1,13 @@
+import os
 import time
-import sys
-import logging
 
-from synology.synology import Syno
-
+from synology import Syno
 
 class FileStation(Syno):
     """
     Access synology FileStation informations
     """
-    self.add = 'real_path,size,owner,time,perm'
+    add = 'real_path,size,owner,time,perm'
 
     def get_info(self):
         """
@@ -73,9 +71,38 @@ class FileStation(Syno):
             }
         ))
 
-    # TODO
-    def search(self):
-        raise NotImplementedError()
+    def search(self, path, pattern):
+        """
+        Search for files/folders.
+        """
+        start = self.req(self.endpoint(
+            'SYNO.FileStation.Search',
+            cgi='FileStation/file_find.cgi',
+            method='start',
+            extra={
+                'folder_path': path,
+                'pattern': pattern
+            }
+        ))
+        if not 'taskid' in start.keys():
+            raise NameError('taskid not in response')
+
+        while True:
+            time.sleep(0.5)
+            file_list = self.req(self.endpoint(
+                'SYNO.FileStation.Search',
+                cgi='FileStation/file_find.cgi',
+                method='list',
+                extra={
+                    'taskid': start['taskid'],
+                    'limit': -1
+                }
+            ))
+            if file_list['finished']:
+                result_list = []
+                for item in file_list['files']:
+                    result_list.append(item['path'])
+                return result_list
 
     def dir_size(self, path):
         """
@@ -101,10 +128,7 @@ class FileStation(Syno):
                 method='status',
                 extra={'taskid': start['taskid']}
             ))
-            print('.', end='')
-            sys.stdout.flush()
             if status['finished']:
-                print()
                 return int(status['total_size'])
 
     def md5(self, path):
@@ -128,11 +152,22 @@ class FileStation(Syno):
                 method='status',
                 extra={'taskid': start['taskid']}
             ))
-            print('.', end='')
-            sys.stdout.flush()
             if status['finished']:
-                print()
                 return status['md5']
+
+    def permission(self, path):
+        """
+        Check if user has permission to write to a path.
+        """
+        return self.req(self.endpoint(
+            'SYNO.FileStation.CheckPermission',
+            cgi='FileStation/file_permission.cgi',
+            method='write',
+            extra={
+                'path': path,
+                'create_only': 'false'
+            }
+        ))
 
     def delete(self, path):
         """
@@ -177,3 +212,57 @@ class FileStation(Syno):
                 'additional': self.add if additional else ''
             }
         ))
+
+    def thumb(self, path, size='small', rotate='0'):
+        """
+        Get thumbnail of file.
+        """
+        return self.req_binary(self.endpoint(
+            'SYNO.FileStation.Thumb',
+            cgi='FileStation/file_thumb.cgi',
+            method='get',
+            extra={
+                'path': path,
+                'size': size,
+                'rotate': rotate
+            }
+        ))
+
+    def download(self, path, mode='open'):
+        """
+        Download files/folders.
+        """
+        return self.req_binary(self.endpoint(
+            'SYNO.FileStation.Download',
+            cgi='FileStation/file_download.cgi',
+            method='download',
+            extra={
+                'path': path,
+                'mode': mode
+            }
+        ))
+
+    def upload(self, path, data, overwrite=True):
+        """
+        Upload file.
+        """
+        dir = os.path.dirname(path)
+        file = os.path.basename(path)
+        return self.req_post(self.base_endpoint('FileStation/api_upload.cgi'),
+            data={
+                'api': 'SYNO.FileStation.Upload',
+                'version': '1',
+                'method': 'upload',
+                'create_parents': True,
+                'overwrite': True if overwrite else None,   # None tells API to throw an error if file exists
+                'dest_folder_path': dir,
+                '_sid': self.sid
+            },
+            files={
+                'file': (
+                    file,
+                    data,
+                    'application/octet-stream'
+                )
+            }
+        )

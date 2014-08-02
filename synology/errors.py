@@ -32,5 +32,6 @@ errors = {
     419: 'Illegal file name',
     420: 'Illegal file name on FAT file system',
     421: 'Device or resource busy',
-    599: 'No such task of the file operation'
+    599: 'No such task of the file operation',
+    900: 'Failed to delete file(s)/folder(s)'
 }
